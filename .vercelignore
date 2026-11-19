@@ -1,0 +1,11 @@
+.venv/
+venv/
+storage/
+__pycache__/
+*.pyc
+backend/
+Dockerfile
+run.sh
+requirements.txt
+*.mp4
+*.ass

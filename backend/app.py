@@ -224,4 +224,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
 def index():
+    root_index = os.path.join(BASE_DIR, "index.html")
+    if os.path.exists(root_index):
+        return FileResponse(root_index)
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
