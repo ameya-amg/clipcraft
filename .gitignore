@@ -1,0 +1,33 @@
+# Python virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ClipCraft dynamic storage (user downloads, generated clips & subtitles)
+storage/downloads/*
+storage/outputs/*
+storage/subtitles/*
+!storage/downloads/.gitkeep
+!storage/outputs/.gitkeep
+!storage/subtitles/.gitkeep
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node & Vercel
+node_modules/
+.vercel/
+.env
+.env.local
+
+# Logs
+*.log

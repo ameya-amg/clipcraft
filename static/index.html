@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipCraft AI - YouTube to 9:16 Shorts with Trending Captions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,800;0,900;1,800&family=Bangers&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-dark text-light">
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <div class="logo-area">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1 class="logo-text">ClipCraft <span>AI</span></h1>
+          <p class="logo-sub">GTA VI & YouTube 9:16 Shorts Generator</p>
+        </div>
+      </div>
+      <div class="nav-badges">
+        <span class="badge badge-accent">100% Free & Unlimited</span>
+        <button id="serverConfigBtn" class="badge badge-online" style="cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: #16202c; color: inherit; font: inherit;" title="Configure Backend AI Server">
+          <span id="serverStatusDot">●</span> <span id="serverStatusText">AI Engine: Local</span> ⚙️
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <!-- Left Column: Controls & Configuration -->
+    <section class="config-panel">
+      <!-- 1. URL & Video Loader -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-num">1</span>
+          <h2>YouTube Video Source</h2>
+        </div>
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="youtubeUrl" 
+            placeholder="Paste YouTube link (e.g. https://www.youtube.com/watch?v=...)" 
+            autocomplete="off"
+          />
+          <button id="fetchBtn" class="btn btn-secondary">
+            <span class="btn-text">Load Video</span>
+          </button>
+        </div>
+
+        <!-- Video Info Card (hidden until loaded) -->
+        <div id="videoInfoCard" class="video-preview-card hidden">
+          <img id="videoThumb" src="" alt="Thumbnail" class="thumb-img" />
+          <div class="thumb-details">
+            <h4 id="videoTitle">Loading...</h4>
+            <div class="meta-row">
+              <span id="videoChannel">Channel</span> • 
+              <span id="videoDuration">00:00</span>
+            </div>
+            <div class="clip-range-box">
+              <label>Clip Segment (Seconds):</label>
+              <div class="range-inputs">
+                <div>
+                  <small>Start (s)</small>
+                  <input type="number" id="startTime" value="0" min="0" step="1" />
+                </div>
+                <div>
+                  <small>End (s)</small>
+                  <input type="number" id="endTime" value="30" min="1" step="1" />
+                </div>
+                <div class="duration-badge">
+                  <span id="clipDurationDisplay">30s</span> short
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Framing & Layout -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-num">2</span>
+          <h2>9:16 Video Layout</h2>
+        </div>
+        <div class="layout-grid">
+          <label class="layout-option active">
+            <input type="radio" name="layoutMode" value="blurred_bg" checked />
+            <div class="layout-card">
+              <div class="layout-icon">🎮</div>
+              <strong>Blurred Background</strong>
+              <small>Best for GTA & Gaming. Keeps 100% of gameplay visible with sleek blurred fill.</small>
+            </div>
+          </label>
+          <label class="layout-option">
+            <input type="radio" name="layoutMode" value="center_crop" />
+            <div class="layout-card">
+              <div class="layout-icon">📱</div>
+              <strong>Center Crop</strong>
+              <small>Fills entire 9:16 screen. Great for podcasts or centered subjects.</small>
+            </div>
+          </label>
+          <label class="layout-option">
+            <input type="radio" name="layoutMode" value="fit_bars" />
+            <div class="layout-card">
+              <div class="layout-icon">⬛</div>
+              <strong>Fit (Letterbox)</strong>
+              <small>Classic fit inside 9:16 with black top/bottom header space.</small>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 3. Trending Caption Styles -->
+      <div class="card">
+        <div class="card-header">
+          <span class="step-num">3</span>
+          <h2>Trending Caption Style</h2>
+        </div>
+
+        <!-- Presets -->
+        <label class="field-label">Quick Trending Presets</label>
+        <div class="presets-grid" id="presetsContainer">
+          <button class="preset-btn active" data-preset="hormozi">
+            <span class="preset-tag">Hormozi Viral</span>
+            <span class="preset-preview" style="color: #fff; background: #000;">VIRAL <span style="color:#FFEA00">CLIPS</span></span>
+          </button>
+          <button class="preset-btn" data-preset="beast">
+            <span class="preset-tag">MrBeast Punch</span>
+            <span class="preset-preview" style="color: #fff; background: #000;">INSANE <span style="color:#39FF14">WIN</span></span>
+          </button>
+          <button class="preset-btn" data-preset="vice_neon">
+            <span class="preset-tag">GTA Vice Neon</span>
+            <span class="preset-preview" style="color: #00FFFF; background: #0e0a1f;">VICE <span style="color:#FF1493">CITY</span></span>
+          </button>
+          <button class="preset-btn" data-preset="fire_gold">
+            <span class="preset-tag">Gold & Fire</span>
+            <span class="preset-preview" style="color: #fff; background: #111;">MISSION <span style="color:#FF7700">PASSED</span></span>
+          </button>
+          <button class="preset-btn" data-preset="minimal_clean">
+            <span class="preset-tag">Clean Minimal</span>
+            <span class="preset-preview" style="color: #eee; background: #222;">Modern clean</span>
+          </button>
+        </div>
+
+        <!-- Custom Styling Toggles -->
+        <div class="custom-style-controls">
+            <div class="control-item">
+              <label for="languageSelect">🗣️ Speech Language</label>
+              <select id="languageSelect">
+                <option value="hinglish" selected>🇮🇳 Hindi / Hinglish (Hindi Spoken ➔ Romanized Captions)</option>
+                <option value="auto">🌐 Auto Detect Language</option>
+                <option value="en">🇺🇸 English Only</option>
+              </select>
+            </div>
+
+            <div class="control-item">
+              <label for="fontFamily">Font Family</label>
+              <select id="fontFamily">
+                <option value="Montserrat" selected>Montserrat Black (Hormozi)</option>
+                <option value="Anton">Anton Bold (Impact Punch)</option>
+                <option value="Arial Black">Arial Black</option>
+                <option value="Impact">Impact Classic</option>
+                <option value="Helvetica">Helvetica / Clean</option>
+              </select>
+            </div>
+
+            <div class="control-item" style="grid-column: 1 / -1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                <label for="fontSize" style="margin: 0; font-weight: 700;">🔤 Caption Font Size (<span id="fontSizeVal">65</span>px)</label>
+                <div class="size-quick-buttons">
+                  <button type="button" class="btn-size-chip" data-size="48">Small (48px)</button>
+                  <button type="button" class="btn-size-chip active" data-size="65">Medium (65px)</button>
+                  <button type="button" class="btn-size-chip" data-size="85">Large (85px)</button>
+                  <button type="button" class="btn-size-chip" data-size="110">Giant / Viral (110px)</button>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <input type="range" id="fontSize" min="36" max="140" value="65" style="flex: 1;" />
+                <input type="number" id="fontSizeNum" min="36" max="140" value="65" style="width: 80px; text-align: center; font-weight: 700; font-size: 14px;" />
+              </div>
+            </div>
+
+            <div class="control-item">
+              <label for="primaryColor">Base Text Color</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="primaryColor" value="#FFFFFF" />
+                <span class="color-hex" id="primaryColorHex">#FFFFFF</span>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <label for="highlightColor">Active Word Highlight</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="highlightColor" value="#FFEA00" />
+                <span class="color-hex" id="highlightColorHex">#FFEA00</span>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <label for="outlineColor">Outline Color</label>
+              <div class="color-picker-wrap">
+                <input type="color" id="outlineColor" value="#000000" />
+                <span class="color-hex" id="outlineColorHex">#000000</span>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <label for="outlineWidth">Outline Thickness (<span id="outlineWidthVal">6</span>px)</label>
+              <input type="range" id="outlineWidth" min="0" max="12" value="6" />
+            </div>
+
+            <div class="control-item">
+              <label for="positionY">Vertical Position (<span id="positionYVal">62</span>% - Over Video)</label>
+              <input type="range" id="positionY" min="30" max="88" value="62" />
+            </div>
+
+            <div class="control-item">
+              <label for="wordsPerLine">Words Per Group</label>
+              <select id="wordsPerLine">
+                <option value="1">1 Word (Rapid Fire Pop)</option>
+                <option value="2">2 Words (Fast Paced)</option>
+                <option value="3" selected>3 Words (TikTok Standard)</option>
+                <option value="4">4 Words (Sentence Flow)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Shorts Effects Toggles -->
+          <div class="checkbox-row">
+            <label class="switch-label">
+              <input type="checkbox" id="punchZoom" checked />
+              <span class="toggle-slider"></span>
+              <strong>⚡ Dynamic Punch Zooms (Auto camera cut/zoom-in every 4s)</strong>
+            </label>
+          </div>
+          <div class="checkbox-row" style="margin-top: 8px; padding-top: 0; border: none;">
+            <label class="switch-label">
+              <input type="checkbox" id="enableSfx" checked />
+              <span class="toggle-slider"></span>
+              <strong>🔊 Punchline Sound Effects (Whoosh & Pops on key moments)</strong>
+            </label>
+          </div>
+          <div class="checkbox-row" style="margin-top: 8px; padding-top: 0; border: none;">
+            <label class="switch-label">
+              <input type="checkbox" id="allCaps" checked />
+              <span class="toggle-slider"></span>
+              <strong>ALL CAPS (Recommended for viral retention)</strong>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button id="generateBtn" class="btn btn-primary btn-large">
+        <span class="btn-icon">⚡</span>
+        <span>Generate 9:16 Short with Captions</span>
+      </button>
+    </section>
+
+    <!-- Right Column: Live Mockup & Output Viewer -->
+    <section class="preview-panel">
+      <div class="sticky-wrapper">
+        <div class="preview-header">
+          <h3>Live Mobile Preview</h3>
+          <span class="badge badge-accent">Interactive Mockup</span>
+        </div>
+
+        <!-- Phone Shell -->
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" id="previewScreen">
+            <!-- Simulated Gameplay Background -->
+            <div class="simulated-bg" id="simulatedBg">
+              <div class="gameplay-mockup">
+                <div class="car-icon">🏎️</div>
+                <div class="city-skyline">GTA VI • VICE CITY</div>
+              </div>
+            </div>
+
+            <!-- Live Subtitle Overlay -->
+            <div class="live-subtitle-container" id="liveSubContainer" style="top: 62%;">
+              <div class="live-subtitle-box" id="liveSubtitleBox">
+                <span class="sub-word">BHAI</span>
+                <span class="sub-word highlighted">YEH</span>
+                <span class="sub-word">KABHI</span>
+                <span class="sub-word">DEKHA</span>
+                <span class="sub-word highlighted">HAI?!</span>
+              </div>
+            </div>
+
+            <!-- TikTok / Shorts UI Simulation -->
+            <div class="shorts-ui-overlay">
+              <div class="shorts-right-icons">
+                <div class="action-btn">❤️<span>142K</span></div>
+                <div class="action-btn">💬<span>2.4K</span></div>
+                <div class="action-btn">↗️<span>Share</span></div>
+              </div>
+              <div class="shorts-bottom-meta">
+                <div class="channel-tag">@gtavi_clips • Original Sound</div>
+                <div class="sound-disc">💿</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-controls">
+          <button id="toggleAnimBtn" class="btn btn-outline btn-small">
+            ▶ Test Word Highlight Animation
+          </button>
+        </div>
+
+        <!-- Progress & Result Modal / Card -->
+        <div id="progressCard" class="card progress-card hidden">
+          <div class="progress-header">
+            <h4 id="progressTitle">Processing Video...</h4>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div id="progressBar" class="progress-bar-fill" style="width: 0%"></div>
+          </div>
+          <p id="progressMessage" class="progress-message">Starting pipeline...</p>
+
+          <div class="steps-indicator">
+            <span id="step-dl" class="mini-step">1. Download</span>
+            <span id="step-ai" class="mini-step">2. AI Whisper</span>
+            <span id="step-sub" class="mini-step">3. Subtitles</span>
+            <span id="step-render" class="mini-step">4. 9:16 Render</span>
+          </div>
+        </div>
+
+        <!-- Ready Result Box -->
+        <div id="resultCard" class="card result-card hidden">
+          <div class="result-success">
+            <div class="success-icon">🎉</div>
+            <div>
+              <h4>Your 9:16 Short is Ready!</h4>
+              <p>Burned with high-contrast animated captions.</p>
+            </div>
+          </div>
+
+          <div class="video-output-wrap">
+            <video id="outputVideoPlayer" controls playsinline></video>
+          </div>
+
+          <div class="result-actions">
+            <a id="downloadBtn" href="#" download="clipcraft_short.mp4" class="btn btn-primary">
+              ⬇ Download 9:16 Short (.mp4)
+            </a>
+            <button id="createAnotherBtn" class="btn btn-secondary">
+              Create Another
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>ClipCraft AI • Powered by faster-whisper, yt-dlp & FFmpeg • Runs 100% locally on your machine</p>
+    </div>
+  </footer>
+
+  <!-- Backend Server Configuration Modal -->
+  <div id="serverModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>⚡ ClipCraft Backend Connection</h3>
+        <button id="closeModalBtn" class="btn-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 14px;">
+          Video generation uses <strong>faster-whisper</strong> & <strong>FFmpeg</strong>. When deployed on Vercel, connect this web app to your ClipCraft backend server (local machine or cloud container).
+        </p>
+        <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">Backend Server URL</label>
+        <input type="text" id="backendUrlInput" placeholder="http://localhost:8000 (or https://your-backend.com)" style="margin-bottom: 14px;" />
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button id="testConnectionBtn" class="btn btn-secondary btn-small">Test Connection</button>
+          <button id="saveBackendUrlBtn" class="btn btn-primary btn-small">Save & Connect</button>
+        </div>
+        <p id="connectionStatusMsg" style="font-size: 13px; margin-top: 12px; font-weight: 600; display: none;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
