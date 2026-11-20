@@ -10,16 +10,22 @@ FFmpeg video processing engine:
 """
 
 import os
+import shutil
 import subprocess
 from typing import Optional, List
 
 
 def get_ffmpeg_path() -> str:
-    # Priority: ffmpeg-full (with libass), then standard ffmpeg
+    # Priority: shutil.which, ffmpeg-full (macOS), then standard Linux/brew paths
+    which_ffmpeg = shutil.which("ffmpeg")
+    if which_ffmpeg and os.path.exists(which_ffmpeg):
+        return which_ffmpeg
+
     for path in [
         "/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg",
-        "/opt/homebrew/bin/ffmpeg",
+        "/usr/bin/ffmpeg",
         "/usr/local/bin/ffmpeg",
+        "/opt/homebrew/bin/ffmpeg",
         "ffmpeg"
     ]:
         if os.path.exists(path):
