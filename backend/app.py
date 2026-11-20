@@ -68,7 +68,7 @@ class CreateClipRequest(BaseModel):
     max_words_per_segment: Optional[int] = 3
     position_y: Optional[int] = 62
     layout_mode: Optional[str] = "blurred_bg"
-    model_size: Optional[str] = "small"
+    model_size: Optional[str] = "base"
     language: Optional[str] = "hinglish"
     punch_zoom: Optional[bool] = True
     enable_sfx: Optional[bool] = True

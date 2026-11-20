@@ -1,6 +1,17 @@
+---
+title: ClipCraft AI
+emoji: ⚡
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8000
+---
+
 # ⚡ ClipCraft AI - GTA VI & Viral Shorts Generator
 
-ClipCraft AI is a 100% free, local-first web application that converts long YouTube videos (such as GTA VI trailers, gameplay, or podcasts) into viral **9:16 vertical Shorts, Reels, and TikToks** with word-by-word animated captions, intelligent punch zooms, and transition sound effects.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ameya-amg/clipcraft)
+
+ClipCraft AI is a 100% free web application that converts long YouTube videos (such as GTA VI trailers, gameplay, or podcasts) into viral **9:16 vertical Shorts, Reels, and TikToks** with word-by-word animated captions, intelligent punch zooms, and transition sound effects.
 
 ---
 

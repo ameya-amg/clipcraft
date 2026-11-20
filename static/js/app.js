@@ -480,7 +480,7 @@
       language: languageSelect ? languageSelect.value : "hinglish",
       punch_zoom: punchZoomCheckbox ? punchZoomCheckbox.checked : true,
       enable_sfx: enableSfxCheckbox ? enableSfxCheckbox.checked : true,
-      model_size: "small"
+      model_size: "base"
     };
 
     // UI state
